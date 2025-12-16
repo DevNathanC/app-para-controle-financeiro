@@ -1,0 +1,100 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-content .amount {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-content small {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.card-receita {
+  border-left: 5px solid #4CAF50;
+}
+
+.card-receita .amount {
+  color: #4CAF50;
+}
+
+.card-despesa {
+  border-left: 5px solid #f44336;
+}
+
+.card-despesa .amount {
+  color: #f44336;
+}
+
+.card-saldo {
+  border-left: 5px solid #2196F3;
+}
+
+.card-saldo .amount {
+  color: #2196F3;
+}
+
+.card-saldo.positive {
+  border-left-color: #4CAF50;
+}
+
+.card-saldo.positive .amount {
+  color: #4CAF50;
+}
+
+.card-saldo.negative {
+  border-left-color: #f44336;
+}
+
+.card-saldo.negative .amount {
+  color: #f44336;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .card-content .amount {
+    font-size: 1.5rem;
+  }
+}
