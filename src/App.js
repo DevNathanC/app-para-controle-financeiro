@@ -17,7 +17,17 @@ function App() {
   useEffect(() => {
     const savedBills = localStorage.getItem('bills');
     if (savedBills) {
-      setBills(JSON.parse(savedBills));
+      const parsedBills = JSON.parse(savedBills);
+      setBills(parsedBills);
+      
+      // Verificar e gerar contas recorrentes após carregar
+      setTimeout(() => {
+        const newBills = checkAndGenerateRecurringBills(parsedBills);
+        if (newBills.length > 0) {
+          setBills(prev => [...prev, ...newBills]);
+          console.log(`${newBills.length} conta(s) recorrente(s) gerada(s) automaticamente`);
+        }
+      }, 1000);
     }
   }, []);
 
@@ -28,22 +38,25 @@ function App() {
 
   // Verificar e gerar contas recorrentes automaticamente
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Verificar imediatamente ao carregar (apenas uma vez)
+    const checkRecurring = () => {
       const newBills = checkAndGenerateRecurringBills(bills);
       if (newBills.length > 0) {
-        setBills([...bills, ...newBills]);
+        setBills(prevBills => [...prevBills, ...newBills]);
         console.log(`${newBills.length} conta(s) recorrente(s) gerada(s) automaticamente`);
       }
-    }, 60000); // Verificar a cada 1 minuto
+    };
 
-    // Também verificar imediatamente ao carregar
-    const newBills = checkAndGenerateRecurringBills(bills);
-    if (newBills.length > 0) {
-      setBills([...bills, ...newBills]);
+    // Verificar ao carregar
+    if (bills.length > 0) {
+      checkRecurring();
     }
 
+    // Configurar verificação periódica a cada 5 minutos
+    const interval = setInterval(checkRecurring, 300000);
+
     return () => clearInterval(interval);
-  }, [bills]);
+  }, []); // Executar apenas uma vez ao montar o componente
 
   const addBill = (bill) => {
     const newBill = {
